@@ -125,6 +125,87 @@
                     }
                 }
             }
+        },
+        "/api/todos": {
+            "get": {
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Get Todo List",
+                "description": "Get User Todos",
+                "operationId": "getTodoList",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/todos/": {
+            "post": {
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "storeTodo",
+                "description": "Create User Todo",
+                "operationId": "Todos",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "task_priority",
+                                    "due_at"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "text"
+                                    },
+                                    "description": {
+                                        "type": "text"
+                                    },
+                                    "task_priority": {
+                                        "type": "number"
+                                    },
+                                    "due_at": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success"
+                    },
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
         }
     }
 }
