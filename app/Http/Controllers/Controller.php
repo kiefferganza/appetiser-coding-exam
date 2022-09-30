@@ -25,6 +25,7 @@ use Illuminate\Routing\Controller as BaseController;
  *      description="API Server"
  * )
  */
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

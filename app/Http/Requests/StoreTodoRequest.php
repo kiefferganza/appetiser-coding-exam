@@ -27,6 +27,7 @@ class StoreTodoRequest extends FormRequest
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'task_priority' => 'required|integer',
+            'task_completed' => 'boolean',
             'due_at' => [
                 function ($attribute, $value, $fail) {
                     if(strtotime($value) < strtotime(date('Y-m-d'))) {

@@ -11,6 +11,15 @@ class TodoController extends Controller
 {
     public function __construct(private Todo $todo,private AuthService $response)
     {}
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class TodoController extends Controller
+{
+    public function __construct(private Todo $todo, private Auth $auth)
+    {
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,6 +46,16 @@ class TodoController extends Controller
 
         return response()->json($this->todo->all()->where('user_id', $user), 200);
 
+    public function index(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $todoList = $this->todo::where('user_id', $this->auth::id());
+
+        if($request->has('sortType')){
+            $todoList->orderBy($request['sortType']['name'], $request['sortType']['value']);
+        }
+
+        return response()->json($todoList->paginate(10),
+            200);
     }
 
 
@@ -88,16 +107,68 @@ class TodoController extends Controller
     public function store(StoreTodoRequest $request): array|\Illuminate\Http\JsonResponse
     {
         $this->todo->create([
+    $todo = $this->todo->create([
             'title' => $request['title'],
             'description' => $request['description'],
             'task_priority' => $request['task_priority'],
             'due_at' => $request['due_at'],
             'user_id' => \Auth::id(),
+            'user_id' => $this->auth::id(),
         ]);
 
         return response()->json([
             'message' => 'Success',
         ], 200);
+    }
+            'data' => $todo
+        ], 200);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/todo/{id}",
+     *      operationId="getTodoById",
+     *      tags={"Todo"},
+     *      summary="Get todo information",
+     *      description="Returns todo data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Todo id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="[]")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
+    public function show($id): \Illuminate\Http\JsonResponse
+    {
+        $todo = $this->todo::where('id',$id)->firstOrFail();
+
+        if($todo['user_id'] !== $this->auth::id()) return response()->json(['Unauthenticated'], 401);
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $todo
+        ]);
     }
     /**
      * Update the specified resource in storage.
@@ -109,6 +180,65 @@ class TodoController extends Controller
     public function update(Request $request, Todo $todo)
     {
         //
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    /**
+     * @OA\Put(
+     *      path="api/todos/{id}",
+     *      operationId="updateTodo",
+     *      tags={"Todo"},
+     *      summary="Update existing todo",
+     *      description="Returns updated todo data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Todo id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="[]")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+
+    public function update(StoreTodoRequest $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $todo = $this->todo::where('id',$id)->firstOrFail();
+        if($todo['user_id'] !== $this->auth::id()) return response()->json(['message' => 'Unauthenticated'], 401);
+
+        $todo->update([
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'task_priority' => $request['task_priority'],
+            'date_completed' => $request['task_completed'] === true ? Carbon::now() : null,
+            'due_at' => $request['due_at'],
+        ]);
+        return response()->json([
+            'message' =>'Success',
+            'data'=>$todo
+        ],200);
     }
 
     /**
@@ -120,5 +250,53 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         //
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    /**
+     * @OA\Delete(
+     *      path="/projects/{todo}",
+     *      operationId="deleteTodo",
+     *      tags={"Todo"},
+     *      summary="Delete existing todo",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Todo id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+    public function destroy($id): \Illuminate\Http\JsonResponse
+    {
+        $todo = $this->todo::where('id',$id)->firstOrFail();
+        if($todo['user_id'] !== $this->auth::id()) return response()->json(['message' => 'Unauthenticated'], 401);
+
+        $todo->delete();
+
+        return response()->json([
+            'message' => 'Success'
+        ],200);
     }
 }
