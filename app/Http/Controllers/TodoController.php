@@ -5,12 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTodoRequest;
 use App\Models\Todo;
 use App\Services\AuthService;
-use Illuminate\Http\Request;
-
-class TodoController extends Controller
-{
-    public function __construct(private Todo $todo,private AuthService $response)
-    {}
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,12 +34,6 @@ class TodoController extends Controller
      *      @OA\Response(response=404, description="Resource Not Found"),
      * )
      */
-    public function index(): \Illuminate\Http\JsonResponse
-    {
-        $user = \Auth::id();
-
-        return response()->json($this->todo->all()->where('user_id', $user), 200);
-
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $todoList = $this->todo::where('user_id', $this->auth::id());
@@ -106,20 +94,16 @@ class TodoController extends Controller
 
     public function store(StoreTodoRequest $request): array|\Illuminate\Http\JsonResponse
     {
-        $this->todo->create([
     $todo = $this->todo->create([
             'title' => $request['title'],
             'description' => $request['description'],
             'task_priority' => $request['task_priority'],
             'due_at' => $request['due_at'],
-            'user_id' => \Auth::id(),
             'user_id' => $this->auth::id(),
         ]);
 
         return response()->json([
             'message' => 'Success',
-        ], 200);
-    }
             'data' => $todo
         ], 200);
     }
@@ -175,11 +159,6 @@ class TodoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Todo $todo)
-    {
-        //
      * @return \Illuminate\Http\JsonResponse
      */
 
@@ -245,11 +224,6 @@ class TodoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Todo $todo)
-    {
-        //
      * @return \Illuminate\Http\JsonResponse
      */
 

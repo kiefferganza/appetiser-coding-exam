@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "private": true,
     "scripts": {
         "dev": "npm run development",
@@ -19,6 +20,8 @@
         "tailwindcss": "^3.1.8"
     }
 =======
+=======
+>>>>>>> master
   "private": true,
   "scripts": {
     "dev": "mix watch --hot",
@@ -66,5 +69,8 @@
     "vue-template-compiler": "^2.6.14",
     "webpack-bundle-analyzer": "^4.4.2"
   }
+<<<<<<< HEAD
 >>>>>>> feature/initial-frontend-layout
+=======
+>>>>>>> master
 }

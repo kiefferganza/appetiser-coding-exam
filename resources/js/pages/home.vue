@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-10 m-auto">
       <card :title="$t('home')">
-        Tester
+        {{ todos.data }}
       </card>
     </div>
   </div>
@@ -10,7 +10,6 @@
 
 <script>
 import axios from 'axios'
-
 export default {
   middleware: 'auth',
 

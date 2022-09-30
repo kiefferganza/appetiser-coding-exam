@@ -87,10 +87,14 @@ return [
     | separate password reset settings based on the specific user types.
     |
 <<<<<<< HEAD
+<<<<<<< HEAD
     | The expire time is the number of minutes that each reset token will be
 =======
     | The expire time is the number of minutes that the reset token should be
 >>>>>>> feature/initial-frontend-layout
+=======
+    | The expire time is the number of minutes that the reset token should be
+>>>>>>> master
     | considered valid. This security feature keeps tokens short-lived so
     | they have less time to be guessed. You may change this as needed.
     |

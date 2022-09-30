@@ -5,8 +5,6 @@
 /vendor
 .env
 .env.backup
-.phpunit.result.cache
-docker-compose.override.yml
 .env.dusk.local
 .phpunit.result.cache
 Homestead.json
@@ -14,11 +12,17 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 <<<<<<< HEAD
+<<<<<<< HEAD
 /.idea
 /.vscode
 =======
+=======
+>>>>>>> master
 phpunit.dusk.xml
 /public/dist
 /public/build
 /public/mix-manifest.json
+<<<<<<< HEAD
 >>>>>>> feature/initial-frontend-layout
+=======
+>>>>>>> master
