@@ -1,26 +1,34 @@
 <template>
-  <div class="row">
-    <div class="col-lg-10 m-auto">
-      <card :title="$t('home')">
-        {{ todos.data }}
-      </card>
-    </div>
+  <div class="grid grid-cols-4 gap-4">
+    <card v-for="(todos, index) in todo.data" :key="index" :status="todos.date_completed">
+      <template #card-body>
+        <h5 class="card-title">
+          {{ todos.title }}
+        </h5>
+        <p class="card-text">
+          {{ todos.description }}
+        </p>
+        <a href="#" class="bg-blue-500">View Task</a>
+      </template>
+    </card>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Card from '../components/Card'
 export default {
+  components: {
+    Card
+  },
   middleware: 'auth',
-
   async asyncData () {
-    const { data: todos } = await axios.get('/api/todos')
+    const { data: todo } = await axios.get('/api/todos')
 
     return {
-      todos
+      todo
     }
   },
-
   metaInfo () {
     return { title: this.$t('home') }
   }

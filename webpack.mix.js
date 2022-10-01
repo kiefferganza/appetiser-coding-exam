@@ -9,7 +9,9 @@ mix
     extractStyles: true
   })
   .sass('resources/sass/app.scss', 'public/dist/css')
-
+  .postCss('resources/css/app.css', 'public/css', [
+    require('tailwindcss')
+  ])
   .disableNotifications()
 
 if (mix.inProduction()) {

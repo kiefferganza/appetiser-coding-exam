@@ -10,20 +10,12 @@
       </button>
 
       <div id="navbar" class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-          <locale-dropdown />
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li> -->
-        </ul>
-
         <ul class="navbar-nav ms-auto">
           <!-- Authenticated -->
           <li v-if="user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark"
                href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
             >
-              <img :src="user.photo_url" class="rounded-circle profile-photo me-1">
               {{ user.name }}
             </a>
             <div class="dropdown-menu">
