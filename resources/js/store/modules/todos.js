@@ -41,6 +41,9 @@ export const mutations = {
   setTodoCurrentPage (state, payload) {
     state.todos.page = payload
   },
+  addTodoList (state, payload) {
+    state.todos.list.push(payload)
+  },
   updateTodoList (state, payload) {
     state.todos.list = state.todos.list.map((data) => {
       if (data.id === payload.id) {
@@ -90,7 +93,7 @@ export const actions = {
       })
       .then(() => {
         commit('setTodoCreateState', false)
-        commit('updateTodoList', payload)
+        commit('addTodoList', payload)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)

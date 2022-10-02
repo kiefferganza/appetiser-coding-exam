@@ -24,10 +24,14 @@
     <template #action-buttons-2="{ title }">
       <span>{{ title }}</span>
     </template>
-    <template #table-data-1="{ data }">
+    <template #table-data-2="{ data }">
       <common-badge
-        :title="data"
-        :variant="data === 'Pending' ? 'warning' : 'success'"
+        :title="data[0]"
+        :variant="data[0] === 'Pending' ? 'secondary' : 'success'"
+      />
+      <common-badge
+        :title="data[1].name"
+        :variant="data[1].variant"
       />
     </template>
   </common-table>
@@ -36,6 +40,7 @@
 import CommonTable from '~/components/Common/Table'
 import FormButton from '~/components/Common/Inputs/FormButton'
 import CommonBadge from '~/components/Common/Badge'
+import { PRIORITY_OPTIONS } from '~/constants/priority-options'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
@@ -49,15 +54,15 @@ export default {
     ...mapGetters('todos', ['formattedTodoList']),
     tableData () {
       return {
-        columns: ['Title', 'Status', 'Created at'],
+        columns: ['Title', 'Created at', 'Status/Urgency'],
         rows: this.formattedTodoList
           ? this.formattedTodoList.map((e) => {
             return {
               id: e.id,
               rowValues: [
                 e.title,
-                e.date_completed ? 'Completed' : 'Pending',
-                e.date_created
+                e.date_created,
+                [e.date_completed ? 'Completed' : 'Pending', { name: PRIORITY_OPTIONS[e.task_priority - 1].name, variant: PRIORITY_OPTIONS[e.task_priority - 1].variant }]
               ]
             }
           })
