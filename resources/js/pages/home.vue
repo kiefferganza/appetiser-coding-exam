@@ -1,32 +1,29 @@
 <template>
-  <div class="grid grid-cols-4 gap-4">
-    <card v-for="(todos, index) in todo.data" :key="index" :status="todos.date_completed">
-      <template #card-body>
-        <h5 class="card-title">
-          {{ todos.title }}
-        </h5>
-        <p class="card-text">
-          {{ todos.description }}
-        </p>
-        <a href="#" class="bg-blue-500">View Task</a>
-      </template>
-    </card>
-  </div>
+  <common-wrapper>
+    <template #content>
+      <Todo />
+    </template>
+  </common-wrapper>
 </template>
 
 <script>
-import axios from 'axios'
-import Card from '../components/Card'
+import { mapActions } from 'vuex'
+import CommonWrapper from '../components/Common/Wrapper'
+import Todo from '~/components/Todo'
 export default {
   components: {
-    Card
+    CommonWrapper,
+    Todo
   },
   middleware: 'auth',
-  async asyncData () {
-    const { data: todo } = await axios.get('/api/todos')
+  mounted () {
+    this.fetchTodos()
+  },
+  methods: {
+    ...mapActions('todos', ['fetchTodos']),
 
-    return {
-      todo
+    showModal () {
+      this.$emit('show-user-modal')
     }
   },
   metaInfo () {

@@ -1,0 +1,13 @@
+.form-select-item {
+  @apply cursor-pointer text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9;
+  &__primary {
+    @apply text-white bg-blue-600;
+  }
+}
+
+.form-select-button {
+  @apply bg-white w-full border border-gray-300 rounded-lg shadow-sm outline-none ring-1 sm:text-sm;
+  &__primary {
+    @apply ring-blue-500 border-blue-500;
+  }
+}

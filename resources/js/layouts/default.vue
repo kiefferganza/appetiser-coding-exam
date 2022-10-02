@@ -1,9 +1,12 @@
 <template>
-  <div class="main-layout">
-    <navbar />
-
-    <div class="container-lg mt-4">
-      <child />
+  <div class="antialiased bg-gray-100">
+    <div class="flex flex-col flex-1">
+      <navbar />
+      <main class="flex-1">
+        <div class="md:py-5 py-4">
+          <child />
+        </div>
+      </main>
     </div>
   </div>
 </template>
