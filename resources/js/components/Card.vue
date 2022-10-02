@@ -1,11 +1,11 @@
 <template>
   <div class="card">
-    <div v-if="title" class="card-header">
-      {{ title }}
+    <div class="card-header text-white" :class="badgeVariant">
+      {{ badgeTitle }}
     </div>
 
     <div class="card-body">
-      <slot />
+      <slot name="card-body" />
     </div>
   </div>
 </template>
@@ -15,7 +15,15 @@ export default {
   name: 'Card',
 
   props: {
-    title: { type: String, default: null }
+    status: { type: String, default: null }
+  },
+  computed: {
+    badgeTitle () {
+      return this.status ? 'Completed' : 'Pending'
+    },
+    badgeVariant () {
+      return this.status ? 'bg-success' : 'bg-info'
+    }
   }
 }
 </script>
