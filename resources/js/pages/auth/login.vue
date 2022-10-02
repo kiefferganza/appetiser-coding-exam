@@ -1,53 +1,42 @@
 <template>
-  <div class="row">
-    <div class="col-lg-7 m-auto">
-      <card :title="$t('login')">
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-          <!-- Email -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
+  <div class="flex flex-col h-screen my-auto items-center">
+    <div class="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8">
+      <h5 class="text-xl font-medium text-gray-900 dark:text-white pb-3">
+        Sign in
+      </h5>
+      <form class="space-y-6" @submit.prevent="login" @keydown="form.onKeydown($event)">
+        <div class="mb-6">
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
+          <input id="email"
+                 v-model="form.email" type="email"
+                 :class="{ 'border-red-500': form.errors.has('email') }"
+                 class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required
+          >
+          <has-error :form="form" field="email" />
+        </div>
+        <div class="mb-6">
+          <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
+          <input id="password"
+                 v-model="form.password"
+                 type="password"
+                 :class="[{ 'border-red-500': form.errors.has('password') },
+                          { 'bg-red-50': form.errors.has('password') }
+                 ]"
+                 class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required
+          >
+          <has-error :form="form" field="password" />
+        </div>
+        <div class="flex items-start mb-6">
+          <div class="flex items-center h-5">
+            <checkbox v-model="remember" name="remember">
+              {{ $t('remember_me') }}
+            </checkbox>
           </div>
-
-          <!-- Password -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
-
-          <!-- Remember Me -->
-          <div class="mb-3 row">
-            <div class="col-md-3" />
-            <div class="col-md-7 d-flex">
-              <checkbox v-model="remember" name="remember">
-                {{ $t('remember_me') }}
-              </checkbox>
-
-              <router-link :to="{ name: 'password.request' }" class="small ms-auto my-auto">
-                {{ $t('forgot_password') }}
-              </router-link>
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <div class="col-md-7 offset-md-3 d-flex">
-              <!-- Submit Button -->
-              <v-button :loading="form.busy">
-                {{ $t('login') }}
-              </v-button>
-
-              <!-- GitHub Login Button -->
-              <login-with-github />
-            </div>
-          </div>
-        </form>
-      </card>
+        </div>
+        <v-button :loading="form.busy" class="w-full">
+          Login to your account
+        </v-button>
+      </form>
     </div>
   </div>
 </template>
@@ -55,12 +44,8 @@
 <script>
 import Form from 'vform'
 import Cookies from 'js-cookie'
-import LoginWithGithub from '~/components/LoginWithGithub'
 
 export default {
-  components: {
-    LoginWithGithub
-  },
 
   middleware: 'guest',
 

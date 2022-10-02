@@ -1,11 +1,11 @@
 <template>
   <div class="card">
-    <div class="card-header text-white" :class="badgeVariant">
-      {{ badgeTitle }}
+    <div v-if="title" class="card-header">
+      {{ title }}
     </div>
 
     <div class="card-body">
-      <slot name="card-body" />
+      <slot />
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default {
   name: 'Card',
 
   props: {
+    title: { type: String, default: null },
     status: { type: String, default: null }
   },
   computed: {

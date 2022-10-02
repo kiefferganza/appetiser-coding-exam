@@ -23,3 +23,35 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(359deg); }
 }
+
+.button {
+  @apply text-white font-medium rounded-lg text-sm w-full md:w-auto px-5 py-2.5 text-center;
+
+  &__block {
+    @apply sm:w-full;
+  }
+
+  &__lg {
+    @apply p-3;
+  }
+
+  &__primary {
+    @apply bg-blue-600 focus:ring-4 focus:ring-blue-300 hover:bg-blue-700;
+  }
+
+  &__success {
+    @apply bg-green-500 focus:ring-4 focus:ring-green-300 hover:bg-green-600;
+  }
+
+  &__danger {
+    @apply bg-red-600 focus:ring-4 focus:ring-red-300 hover:bg-red-700;
+  }
+
+  &__secondary {
+    @apply text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm hover:text-gray-900 focus:z-10
+  }
+}
+.button:disabled {
+  @apply bg-blue-300 pointer-events-none;
+}
+

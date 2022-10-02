@@ -1,10 +1,10 @@
 <template>
   <button :type="nativeType" :disabled="loading" :class="{
-    [`btn-${type}`]: true,
-    'btn-block': block,
-    'btn-lg': large,
+    [`button__${type}`]: true,
+    'button__block': block,
+    'button__lg': large,
     'btn-loading': loading
-  }" class="btn"
+  }" class="button"
   >
     <slot />
   </button>
