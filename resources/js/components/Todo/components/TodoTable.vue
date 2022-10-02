@@ -24,16 +24,24 @@
     <template #action-buttons-2="{ title }">
       <span>{{ title }}</span>
     </template>
+    <template #table-data-1="{ data }">
+      <common-badge
+        :title="data"
+        :variant="data === 'Pending' ? 'warning' : 'success'"
+      />
+    </template>
   </common-table>
 </template>
 <script>
 import CommonTable from '~/components/Common/Table'
 import FormButton from '~/components/Common/Inputs/FormButton'
+import CommonBadge from '~/components/Common/Badge'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
   components: {
     CommonTable,
+    CommonBadge,
     FormButton
   },
   computed: {
@@ -49,14 +57,14 @@ export default {
               rowValues: [
                 e.title,
                 e.date_completed ? 'Completed' : 'Pending',
-                e.created_at
+                e.date_created
               ]
             }
           })
           : [],
         callbacks: [
           {
-            callback: (id) => this.$emit('show-user-modal', id),
+            callback: (id) => this.$emit('show-todos-modal', id),
             title: 'Update Task',
             icon: 'edit',
             visible: true

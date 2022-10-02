@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { formatDistance } from 'date-fns'
 // state
 export const state = {
   todos: {
@@ -19,7 +19,8 @@ export const getters = {
   formattedTodoList: state => {
     return state.todos.list.map((data) => {
       return {
-        ...data
+        ...data,
+        date_created: formatDistance(new Date(data.created_at), new Date(), { addSuffix: true })
       }
     })
   }
@@ -89,6 +90,7 @@ export const actions = {
       })
       .then(() => {
         commit('setTodoCreateState', false)
+        commit('updateTodoList', payload)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)
