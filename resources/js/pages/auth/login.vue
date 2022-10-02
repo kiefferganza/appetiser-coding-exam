@@ -1,9 +1,6 @@
 <template>
   <div class="flex flex-col h-screen my-auto items-center">
-    <div class="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-8">
-      <h5 class="text-xl font-medium text-gray-900 dark:text-white pb-3">
-        Sign in
-      </h5>
+    <auth-card title="Login">
       <form class="space-y-6" @submit.prevent="login" @keydown="form.onKeydown($event)">
         <div class="mb-6">
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
@@ -37,16 +34,19 @@
           Login to your account
         </v-button>
       </form>
-    </div>
+    </auth-card>
   </div>
 </template>
 
 <script>
 import Form from 'vform'
 import Cookies from 'js-cookie'
+import AuthCard from '../../components/AuthCard'
 
 export default {
-
+  components: {
+    AuthCard
+  },
   middleware: 'guest',
 
   metaInfo () {
