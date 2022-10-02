@@ -2,6 +2,7 @@
 - PHP 8
 - Mysql
 - Tailwind CSS
+- Flowbite
 
 ## Build Setup
 

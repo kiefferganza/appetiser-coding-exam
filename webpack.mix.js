@@ -8,8 +8,13 @@ mix
   .js('resources/js/app.js', 'public/dist/js').vue({
     extractStyles: true
   })
+  .postCss('resources/css/app.css', 'public/css', [
+    require('tailwindcss')
+  ])
   .sass('resources/sass/app.scss', 'public/dist/css')
-
+  .postCss('resources/css/app.css', 'public/css', [
+    require('tailwindcss')
+  ])
   .disableNotifications()
 
 if (mix.inProduction()) {

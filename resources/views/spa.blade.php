@@ -15,7 +15,7 @@ $appCss = mix('dist/css/app.css');
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>{{ config('app.name') }}</title>
-
+  <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
   <link rel="stylesheet" href="{{ (str_starts_with($appCss, '//') ? 'http:' : '').$appCss }}">
 </head>
 <body>
@@ -25,6 +25,8 @@ $appCss = mix('dist/css/app.css');
     window.config = @json($config);
   </script>
 
+
+  <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
   <script src="{{ (str_starts_with($appJs, '//') ? 'http:' : '').$appJs }}"></script>
 </body>
 </html>
