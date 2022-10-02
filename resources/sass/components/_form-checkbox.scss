@@ -1,0 +1,6 @@
+.form-checkbox {
+  @apply border-gray-300 rounded;
+  &__primary {
+    @apply focus:ring-blue-500 h-4 w-4 text-blue-600;
+  }
+}
