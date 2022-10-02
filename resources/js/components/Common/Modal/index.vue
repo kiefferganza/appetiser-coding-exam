@@ -46,7 +46,7 @@
             <form-button
               v-if="showButton"
               type="submit"
-              class="button bg-ventamo-yellow-2"
+              class="button button__primary"
               :busy="busy"
               :disabled="busy"
               @click="$emit('save')"

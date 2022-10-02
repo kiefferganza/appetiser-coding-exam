@@ -1,13 +1,13 @@
 <template>
   <common-wrapper>
     <template #content>
-      <Todo />
+      <Todo ref="todo" @submit-todo-details-request="submit" />
     </template>
   </common-wrapper>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import CommonWrapper from '../components/Common/Wrapper'
 import Todo from '~/components/Todo'
 export default {
@@ -16,12 +16,22 @@ export default {
     Todo
   },
   middleware: 'auth',
+  computed: {
+    ...mapState('todos', ['todoCreate'])
+  },
   mounted () {
     this.fetchTodos()
   },
   methods: {
-    ...mapActions('todos', ['fetchTodos']),
+    ...mapActions('todos', ['fetchTodos', 'createTodo']),
 
+    submit (data) {
+      this.createTodo(data)
+      if (!this.todoCreate.error) {
+        this.$refs.todo.hideTodoModal()
+        this.$toast.success('Success')
+      }
+    },
     showModal () {
       this.$emit('show-user-modal')
     }

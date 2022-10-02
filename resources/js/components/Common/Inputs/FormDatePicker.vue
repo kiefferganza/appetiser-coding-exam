@@ -1,27 +1,29 @@
 <template>
-  <client-only>
-    <date-picker
-      input-class="form-input form-input__primary w-full"
-      calendar-class="rounded-md mt-2 font-medium"
-      typeable
-      :format="format"
-      v-bind="$attrs"
-      v-on="$listeners"
-    />
-  </client-only>
+  <Datepicker
+    input-class="form-input form-input__primary w-full"
+    calendar-class="rounded-md mt-2 font-medium"
+    typeable
+    :format="format"
+    v-bind="$attrs"
+    v-on="$listeners"
+  />
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker'
 export default {
+  components: {
+    Datepicker
+  },
   props: {
     block: {
       type: Boolean,
-      default: false,
+      default: false
     },
     format: {
       type: String,
-      default: 'yyyy-MM-dd',
-    },
-  },
+      default: 'yyyy-MM-dd'
+    }
+  }
 }
 </script>

@@ -28,7 +28,7 @@ class StoreTodoRequest extends FormRequest
             'description' => 'required|max:255',
             'task_priority' => 'required|integer',
             'task_completed' => 'boolean',
-            'due_at' => [
+            'due_at' => ['nullable',
                 function ($attribute, $value, $fail) {
                     if(strtotime($value) < strtotime(date('Y-m-d'))) {
                         $fail("Due Date must be equal or greater than current date");

@@ -78,22 +78,21 @@ export const actions = {
       })
   },
   async createTodo ({ commit, state }, payload) {
-    commit('setPosCreateState', true)
-    commit('setPosCreateError', '')
-    await this.$api
-      .post('/pos/add-pos-device/', {
-        storeCode: payload.storeCode,
-        posDeviceCode: payload.posDeviceCode,
-        serialNumber: payload.serialNumber,
-        deviceTypeID: payload.deviceTypeID
+    commit('setTodoCreateState', true)
+    commit('setTodoCreateError', '')
+    await axios
+      .post('/api/todos', {
+        title: payload.title,
+        description: payload.description,
+        task_priority: payload.task_priority,
+        due_at: payload.due_at
       })
       .then(() => {
-        commit('setPosCreateState', false)
-        this.app.$toast.success('Successfully created merchant.')
+        commit('setTodoCreateState', false)
       })
       .catch(({ response }) => {
-        commit('setPosCreateState', false)
-        commit('setPosCreateError', response.data.message)
+        commit('setTodoCreateState', false)
+        commit('setTodoCreateError', response.data.message)
       })
   },
   async updateTodos ({ commit, state }, payload) {

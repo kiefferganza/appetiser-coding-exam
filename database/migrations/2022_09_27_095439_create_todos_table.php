@@ -21,7 +21,7 @@ class CreateTodosTable extends Migration
             $table->string('description');
             $table->integer('task_priority');
             $table->dateTime('date_completed')->nullable();
-            $table->date('due_at');
+            $table->date('due_at')->nullable();
             $table->timestamps();
         });
     }

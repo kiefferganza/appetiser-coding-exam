@@ -7,7 +7,7 @@
       ref="todoModal"
       :show="todoModal"
       :update-data="updateData"
-      @submit="submitTodoDetails"
+      @submit="handleSubmit"
       @close-user-modal="todoModal = false"
     />
   </div>
@@ -50,9 +50,6 @@ export default {
     },
     hideTodoModal (payload) {
       this.todoModal = false
-    },
-    submitTodoDetails (meta) {
-      return this.$emit('submit-merchant-details', meta)
     }
   }
 }

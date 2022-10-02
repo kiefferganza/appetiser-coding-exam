@@ -42,8 +42,8 @@ export default {
     tableData () {
       return {
         columns: ['Title', 'Status', 'Created at'],
-        rows: this.formattedTodoList.data
-          ? this.formattedTodoList.data.map((e) => {
+        rows: this.formattedTodoList
+          ? this.formattedTodoList.map((e) => {
             return {
               id: e.id,
               rowValues: [

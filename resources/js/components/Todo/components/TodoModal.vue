@@ -1,7 +1,7 @@
 <template>
   <common-modal
     :show="show"
-    size="lg"
+    size="xl"
     is-form
     :title="!isUpdate ? 'Create Todo' : 'Update Todo'"
     :busy="todoCreate.fetch"
@@ -15,72 +15,61 @@
       <alert-component v-show="todoCreate.error" class="pb-3" variant="danger">
         <error-message :message="todoCreate.error" />
       </alert-component>
-      <div class="py-3 pb-5">
-        <form-group
-          v-if="!isUpdate"
-          class="w-full"
-          label="Store Code"
-          label-for="contact-option"
-          required
-        >
-          <form-select
-            v-model="selectedStoreCode"
-            track-by="name"
-            label="name"
-            :allow-empty="false"
-            :options="[]"
-            name="contact-option"
-          />
-        </form-group>
-      </div>
       <div class="pb-5">
         <div class="flex flex-col md:flex-row items-center gap-4 pb-1">
           <form-group
             class="w-full"
-            label="Serial Number"
-            label-for="name"
+            label="title"
+            label-for="title"
             required
           >
             <form-input
-              v-model="serialNumber"
+              v-model="title"
               required
               type="text"
-              name="name"
-              block
-            />
-          </form-group>
-          <form-group
-            class="w-full"
-            label="Device Code"
-            label-for="name"
-            required
-          >
-            <form-input
-              v-model="deviceCode"
-              required
-              type="text"
-              name="name"
+              name="title"
               block
             />
           </form-group>
         </div>
       </div>
-      <div class="py-3 border-t pb-5">
-        <form-group
-          class="w-full"
-          label="Device Type"
-          label-for="contact-option"
-          required
-        >
-          <form-select
-            v-model="selectedDeviceType"
-            track-by="name"
-            label="name"
-            :allow-empty="false"
-            :options="deviceTypeOptions"
-            name="contact-option"
-          />
-        </form-group>
+      <div class="pb-5">
+        <div class="flex flex-col md:flex-row items-center gap-4 pb-1">
+          <form-group
+            class="w-full"
+            label="Description"
+            label-for="description"
+            required
+          >
+            <form-text-area v-model="description" name="description" />
+          </form-group>
+        </div>
+      </div>
+      <div class="py-3 pb-5">
+        <div class="flex flex-col md:flex-row items-center gap-4 pb-1">
+          <form-group
+            class="w-full"
+            label="Priority"
+            label-for="priority"
+            required
+          >
+            <form-select
+              v-model="selectedTaskPriority"
+              track-by="name"
+              label="name"
+              :allow-empty="false"
+              :options="taskPriorityOptions"
+              name="priority"
+            />
+          </form-group>
+          <form-group
+            class="w-full"
+            label="Due Date"
+            label-for="priority"
+          >
+            <form-date-picker v-model="dueDate" />
+          </form-group>
+        </div>
       </div>
     </div>
   </common-modal>
@@ -89,6 +78,7 @@
 <script>
 import { mapState } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
+import format from 'date-fns/format'
 
 import CommonModal from '~/components/Common/Modal'
 import FormGroup from '~/components/Common/FormGroup'
@@ -96,6 +86,10 @@ import FormInput from '~/components/Common/Inputs/FormInput'
 import ErrorMessage from '~/components/Common/ErrorMessage'
 import AlertComponent from '~/components/Common/AlertComponent'
 import FormSelect from '~/components/Common/Inputs/FormSelect'
+import FormTextArea from '~/components/Common/Inputs/FormTextArea'
+import FormDatePicker from '~/components/Common/Inputs/FormDatePicker'
+
+import { PRIORITY_OPTIONS } from '~/constants/priority-options'
 
 export default {
   components: {
@@ -104,7 +98,9 @@ export default {
     FormSelect,
     FormGroup,
     ErrorMessage,
-    CommonModal
+    CommonModal,
+    FormTextArea,
+    FormDatePicker
   },
   props: {
     show: {
@@ -118,40 +114,24 @@ export default {
   },
   data () {
     return {
-      deviceCode: null,
-      serialNumber: null,
-      selectedStatus: null,
-      selectedDeviceType: {
-        value: 1,
-        name: 'Android'
-      },
-      selectedStoreCode: null,
-      deviceTypeOptions: [
-        {
-          value: 1,
-          name: 'Android'
-        },
-        {
-          value: 2,
-          name: 'POS Hardware'
-        }
-      ],
-      statusOptions: [
-        {
-          value: 1,
-          name: 'Active'
-        },
-        {
-          value: 0,
-          name: 'Inactive'
-        }
-      ]
+      title: null,
+      description: null,
+      dueDate: null,
+      selectedTaskPriority: null
     }
   },
   computed: {
     ...mapState('todos', ['todoCreate']),
     isUpdate () {
       return !this.checkEmptyObject(this.updateData)
+    },
+    taskPriorityOptions () {
+      return PRIORITY_OPTIONS.map((e) => {
+        return {
+          name: e.name,
+          value: e.value
+        }
+      })
     }
   },
   watch: {
@@ -181,19 +161,19 @@ export default {
     },
     submit () {
       this.$emit('submit', {
-        storeCode: this.isUpdate ? '' : this.selectedStoreCode.value,
-        posDeviceCode: this.deviceCode,
-        serialNumber: this.serialNumber,
-        deviceTypeID: this.selectedDeviceType.value,
-        posDeviceID: this.updateData.posDeviceID,
-        isUpdate: this.isUpdate,
-        resetCount: this.updateData.resetCount,
-        isActive: this.selectedStatus.value
+        title: this.title,
+        description: this.description,
+        task_priority: this.selectedTaskPriority.value,
+        due_at: this.dueDate ? format(new Date(this.dueDate), 'yyyy-MM-dd') : null,
+        isUpdate: this.isUpdate
       })
     },
     resetForm () {
-      this.deviceCode = null
-      this.serialNumber = null
+      this.title = null
+      this.description = null
+      this.task_priority = null
+      this.due_at = null
+      this.isUpdate = null
     },
     closeModal () {
       this.$emit('close-user-modal')

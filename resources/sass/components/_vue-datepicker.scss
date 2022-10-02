@@ -1,0 +1,12 @@
+.vdp-datepicker__calendar .cell.selected {
+  @apply bg-blue-400 rounded-md;
+  background-color: rgb(243, 244, 246) !important;
+}
+
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+  @apply rounded-md border-blue-400;
+  background-color: rgb(243, 244, 246) !important;
+  border: none !important;
+}
