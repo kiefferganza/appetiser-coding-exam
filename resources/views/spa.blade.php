@@ -26,7 +26,7 @@ $appCss = mix('dist/css/app.css');
   </script>
 
 
-  <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
   <script src="{{ (str_starts_with($appJs, '//') ? 'http:' : '').$appJs }}"></script>
+  <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
 </body>
 </html>

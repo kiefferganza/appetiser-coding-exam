@@ -9,7 +9,7 @@
     @close="closeModal"
   >
     <div
-      class="overflow-y-auto overflow-x-hidden sm:px-4"
+      class="sm:px-4"
       style="max-height: 30em"
     >
       <alert-component v-show="todoCreate.error" class="pb-3" variant="danger">
@@ -116,7 +116,7 @@ export default {
     return {
       title: null,
       description: null,
-      dueDate: null,
+      dueDate: new Date(),
       selectedTaskPriority: null
     }
   },
@@ -124,6 +124,9 @@ export default {
     ...mapState('todos', ['todoCreate']),
     isUpdate () {
       return !this.checkEmptyObject(this.updateData)
+    },
+    formattedDueDate () {
+      return format(new Date(this.dueDate), 'yyyy-MM-dd')
     },
     taskPriorityOptions () {
       return PRIORITY_OPTIONS.map((e) => {
@@ -164,7 +167,7 @@ export default {
         title: this.title,
         description: this.description,
         task_priority: this.selectedTaskPriority.value,
-        due_at: this.dueDate ? format(new Date(this.dueDate), 'yyyy-MM-dd') : null,
+        due_at: this.formattedDueDate,
         isUpdate: this.isUpdate
       })
     },

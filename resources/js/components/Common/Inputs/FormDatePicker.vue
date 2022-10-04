@@ -3,8 +3,10 @@
     input-class="form-input form-input__primary w-full"
     calendar-class="rounded-md mt-2 font-medium"
     typeable
-    :format="format"
     v-bind="$attrs"
+    :format="format"
+    :placeholder="placeholder"
+    value-type="format"
     v-on="$listeners"
   />
 </template>
@@ -23,6 +25,10 @@ export default {
     format: {
       type: String,
       default: 'yyyy-MM-dd'
+    },
+    placeholder: {
+      type: String,
+      default: ''
     }
   }
 }

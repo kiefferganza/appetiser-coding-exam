@@ -40,6 +40,8 @@ class TodoController extends Controller
 
         if($request->has('sortType')){
             $todoList->orderBy($request['sortType']['name'], $request['sortType']['value']);
+        } else {
+            $todoList->orderBy('created_at', 'desc');
         }
 
         return response()->json($todoList->paginate(10),

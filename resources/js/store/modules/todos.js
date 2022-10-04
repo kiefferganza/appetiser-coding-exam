@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { formatDistance } from 'date-fns'
+
 // state
 export const state = {
   todos: {
@@ -42,7 +43,20 @@ export const mutations = {
     state.todos.page = payload
   },
   addTodoList (state, payload) {
-    state.todos.list.push(payload)
+    if (state.todos.paginationLength >= 10) {
+      state.todos.list.pop()
+    }
+    state.todos.list.unshift({
+      created_at: payload.created_at,
+      date_created: formatDistance(new Date(payload.created_at), new Date(), { addSuffix: true }),
+      description: payload.description,
+      due_at: payload.due_at,
+      id: payload.id,
+      task_priority: payload.task_priority,
+      title: payload.title,
+      updated_at: payload.updated_at,
+      user_id: payload.user_id
+    })
   },
   updateTodoList (state, payload) {
     state.todos.list = state.todos.list.map((data) => {
@@ -69,7 +83,7 @@ export const actions = {
   async fetchTodos ({ commit, state }, payload) {
     commit('setTodoState', true)
     await axios
-      .get('/api/todos', payload)
+      .get(`api/todos?page=${state.todos.page}`, payload)
       .then(({ data }) => {
         commit('setTodoState', false)
         commit('setTodoList', data.data)
@@ -91,9 +105,9 @@ export const actions = {
         task_priority: payload.task_priority,
         due_at: payload.due_at
       })
-      .then(() => {
+      .then(({ data }) => {
         commit('setTodoCreateState', false)
-        commit('addTodoList', payload)
+        commit('addTodoList', data.data)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)

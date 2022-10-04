@@ -8,7 +8,7 @@
     empty-state-description="There are no tasks available as of the moment."
     :fetching="false"
     pagination
-    :pagination-length="todos.PaginationLength"
+    :pagination-length="todos.paginationLength"
     :pagination-limit="10"
     :pagination-page="todos.page"
     @table-paginate="changePage"

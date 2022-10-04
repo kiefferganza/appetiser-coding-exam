@@ -50,7 +50,7 @@
                   class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap relative"
                 >
                   <button
-                    v-on-clickaway="() => hideDropdown(id)"
+                    v-click-outside="() => hideDropdown(id)"
                     class="text-blue-600 dark:text-blue-500"
                     @click="openActionDropdown(id)"
                   >
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway'
+import clickOutside from '../../../directives/clickoutside'
 import ActionDropdown from '~/components/Common/Table/components/ActionDropdown'
 import SearchInput from '~/components/Common/Table/components/SearchInput'
 import EmptyState from '~/components/Common/EmptyState'
@@ -122,7 +122,6 @@ import CommonFaIcon from '~/components/Common/FaIcon'
 
 export default {
   components: { Pagination, EmptyState, SearchInput, ActionDropdown, CommonFaIcon },
-  mixins: [clickaway],
   props: {
     data: {
       type: Object,
