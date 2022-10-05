@@ -111,7 +111,7 @@ export const actions = {
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)
-        commit('setTodoCreateError', response.data.message)
+        commit('setTodoCreateError', response.data.errors)
       })
   },
   async updateTodos ({ commit, state }, payload) {

@@ -25,8 +25,8 @@ export default {
   methods: {
     ...mapActions('todos', ['fetchTodos', 'createTodo']),
 
-    submit (data) {
-      this.createTodo(data)
+    async submit (data) {
+      await this.createTodo(data)
       if (!this.todoCreate.error) {
         this.$refs.todo.hideTodoModal()
         this.$toast.success('Success')

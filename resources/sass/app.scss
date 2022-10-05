@@ -8,12 +8,12 @@
 @import '~sweetalert2/dist/sweetalert2';
 @import '~@fortawesome/fontawesome-svg-core/styles';
 
-@import 'base/fonts';
 @import 'elements/card';
 @import 'elements/navbar';
 @import 'elements/buttons';
 @import 'elements/transitions';
 
+@import 'components/alerts';
 @import 'components/server-error';
 @import 'components/badge';
 @import 'components/form-select';

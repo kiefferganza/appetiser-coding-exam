@@ -175,8 +175,7 @@ export default {
       this.title = null
       this.description = null
       this.task_priority = null
-      this.due_at = null
-      this.isUpdate = null
+      this.due_at = new Date()
     },
     closeModal () {
       this.$emit('close-user-modal')

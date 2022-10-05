@@ -1,0 +1,15 @@
+.alert {
+  @apply flex p-4 font-medium mb-4 border-l-4 text-sm  rounded-r-md;
+  &__danger {
+    @apply text-red-700 bg-red-100 border-red-500;
+  }
+  &__info {
+    @apply text-blue-500 bg-blue-50 border-blue-300;
+  }
+  &__primary {
+    @apply text-blue-700 bg-blue-100 border-blue-500;
+  }
+  &__success {
+    @apply text-green-700 bg-green-100 border-green-500;
+  }
+}

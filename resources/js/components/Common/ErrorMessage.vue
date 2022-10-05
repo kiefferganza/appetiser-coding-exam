@@ -1,16 +1,10 @@
 <template>
   <div class="flex flex-col">
-    <ul
-      v-if="Array.isArray(message)"
-      :class="{ 'list-disc px-6': message.length > 1 }"
-    >
-      <li v-for="(item, index) in message" :key="index">
-        {{ formatMessages(item) }}
-      </li>
-    </ul>
-    <span v-else>
-      {{ message }}
-    </span>
+    <div v-for="(field, k) in message" :key="k">
+      <p v-for="error in field" :key="error" class="text-sm">
+        {{ error }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -20,14 +14,14 @@ export default {
   props: {
     message: {
       type: [Array, String],
-      default: null,
-    },
+      default: null
+    }
   },
   methods: {
-    formatMessages(message) {
+    formatMessages (message) {
       return upperFirst(message)
-    },
-  },
+    }
+  }
 }
 </script>
 
