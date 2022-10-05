@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col border border-gray-100">
     <div class="inline-block min-w-full align-middle dark:bg-gray-800">
-      <todo-table @show-todos-modal="showTodoModal" />
+      <todo-card @show-todos-modal="showTodoModal" />
     </div>
     <todo-modal
       ref="todoModal"
@@ -16,13 +16,13 @@
 <script>
 import { mapState } from 'vuex'
 import ModalMixin from '~/mixins/ModalMixin'
-import TodoTable from '~/components/Todo/components/TodoTable'
+import TodoCard from '~/components/Todo/components/TodoCard'
 import TodoModal from '~/components/Todo/components/TodoModal'
 
 export default {
   components: {
     TodoModal,
-    TodoTable
+    TodoCard
   },
   mixins: [ModalMixin],
   data () {

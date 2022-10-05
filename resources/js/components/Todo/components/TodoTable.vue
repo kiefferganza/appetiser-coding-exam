@@ -71,6 +71,12 @@ export default {
           {
             callback: (id) => this.$emit('show-todos-modal', id),
             title: 'Update Task',
+            icon: 'pen',
+            visible: true
+          },
+          {
+            callback: (id) => this.$emit('update-status', id),
+            title: 'Update Status',
             icon: 'edit',
             visible: true
           }

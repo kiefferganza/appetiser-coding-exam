@@ -12,9 +12,6 @@
       class="sm:px-4"
       style="max-height: 30em"
     >
-      <alert-component v-show="todoCreate.error" class="pb-3" variant="danger">
-        <error-message :message="todoCreate.error" />
-      </alert-component>
       <div class="pb-5">
         <div class="flex flex-col md:flex-row items-center gap-4 pb-1">
           <form-group
@@ -30,6 +27,9 @@
               name="title"
               block
             />
+            <p v-if="hasError('title')" class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ todoCreate.error.title[0] }}</span>
+            </p>
           </form-group>
         </div>
       </div>
@@ -42,6 +42,9 @@
             required
           >
             <form-text-area v-model="description" name="description" />
+            <p v-if="hasError('description')" class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ todoCreate.error.description[0] }}</span>
+            </p>
           </form-group>
         </div>
       </div>
@@ -61,6 +64,9 @@
               :options="taskPriorityOptions"
               name="priority"
             />
+            <p v-if="hasError('task_priority')" class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ todoCreate.error.task_priority[0] }}</span>
+            </p>
           </form-group>
           <form-group
             class="w-full"
@@ -68,6 +74,9 @@
             label-for="priority"
           >
             <form-date-picker v-model="dueDate" />
+            <p v-if="hasError('due_at')" class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ todoCreate.error.due_at[0] }}</span>
+            </p>
           </form-group>
         </div>
       </div>
@@ -79,12 +88,11 @@
 import { mapState } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
 import format from 'date-fns/format'
+import has from 'lodash/has'
 
 import CommonModal from '~/components/Common/Modal'
 import FormGroup from '~/components/Common/FormGroup'
 import FormInput from '~/components/Common/Inputs/FormInput'
-import ErrorMessage from '~/components/Common/ErrorMessage'
-import AlertComponent from '~/components/Common/AlertComponent'
 import FormSelect from '~/components/Common/Inputs/FormSelect'
 import FormTextArea from '~/components/Common/Inputs/FormTextArea'
 import FormDatePicker from '~/components/Common/Inputs/FormDatePicker'
@@ -93,11 +101,9 @@ import { PRIORITY_OPTIONS } from '~/constants/priority-options'
 
 export default {
   components: {
-    AlertComponent,
     FormInput,
     FormSelect,
     FormGroup,
-    ErrorMessage,
     CommonModal,
     FormTextArea,
     FormDatePicker
@@ -159,11 +165,14 @@ export default {
     checkEmptyObject (data) {
       return isEmpty(data)
     },
+    hasError (key) {
+      return has(this.todoCreate.error, key)
+    },
     submit () {
       this.$emit('submit', {
         title: this.title,
         description: this.description,
-        task_priority: this.selectedTaskPriority.value,
+        task_priority: this.selectedTaskPriority?.value,
         due_at: this.formattedDueDate,
         ...(this.isUpdate && { id: this.updateData.id }),
         isUpdate: this.isUpdate
