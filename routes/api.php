@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware('auth:api')->resource('todos', \App\Http\Controllers\TodoController::class);
-
+Route::middleware('auth:api')->post('todos/complete-task/{id}', [\App\Http\Controllers\TodoController::class, 'completeTask']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
 

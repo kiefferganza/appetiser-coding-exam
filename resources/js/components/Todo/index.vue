@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col border border-gray-100">
     <div class="inline-block min-w-full align-middle dark:bg-gray-800">
-      <todo-card @show-todos-modal="showTodoModal" />
+      <todo-card @show-todos-modal="showTodoModal" @complete-task="completeTask" />
     </div>
     <todo-modal
       ref="todoModal"
@@ -39,6 +39,11 @@ export default {
   methods: {
     handleSubmit (payload) {
       this.$emit('submit-todo-details-request', {
+        ...payload
+      })
+    },
+    completeTask (payload) {
+      this.$emit('submit-complete-task-request', {
         ...payload
       })
     },

@@ -213,7 +213,6 @@ class TodoController extends Controller
             'title' => $request['title'],
             'description' => $request['description'],
             'task_priority' => $request['task_priority'],
-            'date_completed' => $request['task_completed'] === true ? Carbon::now() : null,
             'due_at' => $request['due_at'],
         ]);
         return response()->json([
@@ -221,7 +220,18 @@ class TodoController extends Controller
             'data'=>$todo
         ],200);
     }
+    public function completeTask($id) {
+        $todo = $this->todo::where('id',$id)->firstOrFail();
 
+        $todo->update([
+            'date_completed' => Carbon::now()
+        ]);
+
+        return response()->json([
+            'message' =>'Success',
+            'data'=>$todo
+        ],200);
+    }
     /**
      * Remove the specified resource from storage.
      *

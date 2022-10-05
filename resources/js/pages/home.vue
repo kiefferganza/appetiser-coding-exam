@@ -1,7 +1,7 @@
 <template>
   <common-wrapper>
     <template #content>
-      <Todo ref="todo" @submit-todo-details-request="submit" />
+      <Todo ref="todo" @submit-todo-details-request="submit" @submit-complete-task-request="completeTaskStatus"/>
     </template>
   </common-wrapper>
 </template>
@@ -23,7 +23,7 @@ export default {
     this.fetchTodos()
   },
   methods: {
-    ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo']),
+    ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo', 'completeTask']),
 
     async submit (data) {
       if (!data.isUpdate) {
@@ -33,6 +33,12 @@ export default {
       }
       if (!this.todoCreate.error) {
         this.$refs.todo.hideTodoModal()
+        this.$toast.success('Success')
+      }
+    },
+    async completeTaskStatus (data) {
+      await this.completeTask(data)
+      if (!this.todoCreate.error) {
         this.$toast.success('Success')
       }
     },

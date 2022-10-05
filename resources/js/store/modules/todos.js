@@ -79,6 +79,27 @@ export const mutations = {
       }
     })
   },
+  updateTodoStatus (state, payload) {
+    state.todos.list = state.todos.list.map((data) => {
+      if (data.id === payload.id) {
+        return {
+          created_at: payload.created_at,
+          date_completed: payload.date_completed,
+          date_created: formatDistance(new Date(payload.created_at), new Date(), { addSuffix: true }),
+          description: payload.description,
+          due_at: payload.due_at,
+          id: payload.id,
+          task_priority: payload.task_priority,
+          title: payload.title,
+          updated_at: payload.updated_at,
+          user_id: payload.user_id
+        }
+      }
+      return {
+        ...data
+      }
+    })
+  },
   setTodoCreateState (state, payload) {
     state.todoCreate.fetch = payload
   },
@@ -137,6 +158,20 @@ export const actions = {
       .then(({ data }) => {
         commit('setTodoCreateState', false)
         commit('updateTodoList', data.data)
+      })
+      .catch(({ response }) => {
+        commit('setTodoCreateState', false)
+        commit('setTodoCreateError', response.data.errors)
+      })
+  },
+  async completeTask ({ commit, state }, payload) {
+    commit('setTodoCreateState', true)
+    commit('setTodoCreateError', '')
+    await axios
+      .post(`/api/todos/complete-task/${payload.id}`)
+      .then(({ data }) => {
+        commit('setTodoCreateState', false)
+        commit('updateTodoStatus', data.data)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)
