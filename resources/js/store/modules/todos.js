@@ -5,7 +5,7 @@ import { formatDistance } from 'date-fns'
 export const state = {
   todos: {
     fetch: false,
-    paginationLength: 0,
+    paginationLength: 1,
     page: 1,
     list: []
   },
@@ -59,10 +59,19 @@ export const mutations = {
     })
   },
   updateTodoList (state, payload) {
+    console.log(payload)
     state.todos.list = state.todos.list.map((data) => {
       if (data.id === payload.id) {
         return {
-          ...data
+          created_at: payload.created_at,
+          date_created: formatDistance(new Date(payload.created_at), new Date(), { addSuffix: true }),
+          description: payload.description,
+          due_at: payload.due_at,
+          id: payload.id,
+          task_priority: payload.task_priority,
+          title: payload.title,
+          updated_at: payload.updated_at,
+          user_id: payload.user_id
         }
       }
       return {
@@ -108,31 +117,30 @@ export const actions = {
       .then(({ data }) => {
         commit('setTodoCreateState', false)
         commit('addTodoList', data.data)
+        commit('setTodoPaginationLength', state.todos.paginationLength + 1)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)
         commit('setTodoCreateError', response.data.errors)
       })
   },
-  async updateTodos ({ commit, state }, payload) {
-    commit('setPosCreateState', true)
-    commit('setPosCreateError', '')
-    await this.$api
-      .post('/pos/update-pos-device/', {
-        posDeviceID: payload.posDeviceID,
-        posDeviceCode: payload.posDeviceCode,
-        serialNumber: payload.serialNumber,
-        deviceTypeID: payload.deviceTypeID,
-        resetCount: payload.resetCount,
-        isActive: payload.isActive
+  async updateTodo ({ commit, state }, payload) {
+    commit('setTodoCreateState', true)
+    commit('setTodoCreateError', '')
+    await axios
+      .put(`/api/todos/${payload.id}`, {
+        title: payload.title,
+        description: payload.description,
+        task_priority: payload.task_priority,
+        due_at: payload.due_at
       })
-      .then(() => {
-        commit('setPosCreateState', false)
-        this.app.$toast.success('Successfully updated todo.')
+      .then(({ data }) => {
+        commit('setTodoCreateState', false)
+        commit('updateTodoList', data.data)
       })
       .catch(({ response }) => {
-        commit('setPosCreateState', false)
-        commit('setPosCreateError', response.data.message)
+        commit('setTodoCreateState', false)
+        commit('setTodoCreateError', response.data.errors)
       })
   }
 }

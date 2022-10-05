@@ -117,7 +117,8 @@ export default {
       title: null,
       description: null,
       dueDate: new Date(),
-      selectedTaskPriority: null
+      selectedTaskPriority: null,
+      selectedStatus: null,
     }
   },
   computed: {
@@ -139,19 +140,15 @@ export default {
   },
   watch: {
     updateData (newData) {
+      const priorityOptions = PRIORITY_OPTIONS.find((e) => e.value === newData.task_priority)
       this.$store.commit('todos/setTodoCreateError', '')
-      const value = newData.posDeviceID
-
       if (this.isUpdate) {
-        this.serialNumber = newData.serialNumber
-        this.deviceCode = newData.posDeviceCode
-        this.selectedStatus = {
-          value: newData.isActive,
-          name: newData.isActive === 1 ? 'Active' : 'Inactive'
-        }
-        this.selectedDeviceType = {
-          value,
-          name: value === 1 ? 'Android' : 'POS Hardware'
+        this.title = newData.title
+        this.description = newData.description
+        this.due_at = newData.due_at
+        this.selectedTaskPriority = {
+          name: priorityOptions.name,
+          value: priorityOptions.value
         }
       } else {
         this.resetForm()
@@ -168,6 +165,7 @@ export default {
         description: this.description,
         task_priority: this.selectedTaskPriority.value,
         due_at: this.formattedDueDate,
+        ...(this.isUpdate && { id: this.updateData.id }),
         isUpdate: this.isUpdate
       })
     },

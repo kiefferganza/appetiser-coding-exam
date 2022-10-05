@@ -23,10 +23,14 @@ export default {
     this.fetchTodos()
   },
   methods: {
-    ...mapActions('todos', ['fetchTodos', 'createTodo']),
+    ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo']),
 
     async submit (data) {
-      await this.createTodo(data)
+      if (!data.isUpdate) {
+        await this.createTodo(data)
+      } else {
+        await this.updateTodo(data)
+      }
       if (!this.todoCreate.error) {
         this.$refs.todo.hideTodoModal()
         this.$toast.success('Success')
