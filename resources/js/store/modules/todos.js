@@ -100,6 +100,10 @@ export const mutations = {
       }
     })
   },
+  removeTodo (state, payload) {
+    const id = state.todos.list.findIndex(e => e.id === payload)
+    state.todos.list.splice(id, 1)
+  },
   setTodoCreateState (state, payload) {
     state.todoCreate.fetch = payload
   },
@@ -172,6 +176,20 @@ export const actions = {
       .then(({ data }) => {
         commit('setTodoCreateState', false)
         commit('updateTodoStatus', data.data)
+      })
+      .catch(({ response }) => {
+        commit('setTodoCreateState', false)
+        commit('setTodoCreateError', response.data.errors)
+      })
+  },
+  async deleteTask ({ commit, state }, payload) {
+    commit('setTodoCreateState', true)
+    commit('setTodoCreateError', '')
+    await axios
+      .delete(`/api/todos/${payload.id}`)
+      .then(({ data }) => {
+        commit('setTodoCreateState', false)
+        commit('removeTodo', payload.id)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)

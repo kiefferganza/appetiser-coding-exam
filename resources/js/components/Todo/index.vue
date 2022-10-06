@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col border border-gray-100">
     <div class="inline-block min-w-full align-middle dark:bg-gray-800">
-      <todo-card @show-todos-modal="showTodoModal" @complete-task="completeTask" />
+      <todo-card @show-todos-modal="showTodoModal" @update-task="updateTask" />
     </div>
     <todo-modal
       ref="todoModal"
@@ -30,7 +30,8 @@ export default {
       tabIndex: 0,
       todoModal: false,
       updateID: null,
-      updateData: {}
+      updateData: {},
+      isReject: false,
     }
   },
   computed: {
@@ -42,8 +43,8 @@ export default {
         ...payload
       })
     },
-    completeTask (payload) {
-      this.$emit('submit-complete-task-request', {
+    updateTask (payload) {
+      this.$emit('submit-update-task', {
         ...payload
       })
     },
@@ -52,6 +53,7 @@ export default {
         ? this.todos.list.find(({ id }) => id === data)
         : {}
       this.todoModal = true
+
     },
     hideTodoModal (payload) {
       this.todoModal = false
