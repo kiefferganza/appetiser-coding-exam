@@ -43,6 +43,7 @@ export default {
         await this.deleteTask(data)
       }
       if (!this.todoCreate.error) {
+        this.$refs.todo.hideTodoModal()
         this.$toast.success('Success')
       }
     },

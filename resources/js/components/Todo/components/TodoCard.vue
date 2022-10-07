@@ -28,7 +28,7 @@
         <div class="flex flex-row items-center space-x-3">
           <form-button class="flex flex-none items-center justify-center w-10 h-10 rounded-full text-white hover:bg-red-300" :class="[{'badge__success': value.date_completed},
                                                                                                                                       {'badge__warning': !value.date_completed}]"
-                       :busy="todoCreate.fetch && hoverIndex === value.id" :disabled="todoCreate.fetch && hoverIndex === value.id" @mouseover="hoverElement(value.id)" @mouseleave="showIcon = false" @click="updateTask(value.id, 'delete-task')"
+                       :busy="todoCreate.fetch && hoverIndex === value.id" :disabled="todoCreate.fetch && hoverIndex === value.id" @mouseover="hoverElement(value.id)" @mouseleave="showIcon = false" @click="showModal(value.id, true)"
           >
             <fa-icon v-if="showIcon && hoverIndex === value.id" icon="trash" class="h-10 w-10" />
             <fa-icon v-else :icon="value.date_completed ? 'check' : 'exclamation-triangle'" class="h-10 w-10" />
@@ -94,7 +94,7 @@ export default {
       this.fetchTodos()
     },
     showModal (id = null, isReject = false) {
-      this.$emit('show-todos-modal', id)
+      this.$emit('show-todos-modal', { id: id, isReject: isReject })
     },
     updateTask (id = null, type) {
       this.$emit('update-task', {

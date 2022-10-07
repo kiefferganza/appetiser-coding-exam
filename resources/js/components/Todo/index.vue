@@ -7,7 +7,9 @@
       ref="todoModal"
       :show="todoModal"
       :update-data="updateData"
+      :is-reject="isReject"
       @submit="handleSubmit"
+      @update-task="updateTask"
       @close-user-modal="todoModal = false"
     />
   </div>
@@ -31,7 +33,7 @@ export default {
       todoModal: false,
       updateID: null,
       updateData: {},
-      isReject: false,
+      isReject: false
     }
   },
   computed: {
@@ -50,10 +52,10 @@ export default {
     },
     showTodoModal (data) {
       this.updateData = data
-        ? this.todos.list.find(({ id }) => id === data)
+        ? this.todos.list.find(({ id }) => id === data.id)
         : {}
       this.todoModal = true
-
+      this.isReject = data.isReject
     },
     hideTodoModal (payload) {
       this.todoModal = false

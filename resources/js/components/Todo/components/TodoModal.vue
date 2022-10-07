@@ -1,14 +1,16 @@
 <template>
   <common-modal
     :show="show"
-    size="xl"
+    :size="isReject ? 'md' : 'lg'"
     is-form
-    :title="!isUpdate ? 'Create Todo' : 'Update Todo'"
+    :title="!isUpdate ? 'Create Task' : isReject ? '' : 'Update Task'"
+    :save-title="isReject ? 'Delete Request' : 'Save'"
     :busy="todoCreate.fetch"
     @save="submit"
     @close="closeModal"
   >
     <div
+      v-if="!isReject"
       class="sm:px-4"
       style="max-height: 30em"
     >
@@ -81,6 +83,12 @@
         </div>
       </div>
     </div>
+    <div v-else class="flex flex-col items-center justify-center">
+      <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+        Are you sure you want to delete this task?
+      </h3>
+    </div>
   </common-modal>
 </template>
 
@@ -96,7 +104,6 @@ import FormInput from '~/components/Common/Inputs/FormInput'
 import FormSelect from '~/components/Common/Inputs/FormSelect'
 import FormTextArea from '~/components/Common/Inputs/FormTextArea'
 import FormDatePicker from '~/components/Common/Inputs/FormDatePicker'
-
 import { PRIORITY_OPTIONS } from '~/constants/priority-options'
 
 export default {
@@ -116,6 +123,10 @@ export default {
     updateData: {
       type: Object,
       default: () => {}
+    },
+    isReject: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -124,7 +135,7 @@ export default {
       description: null,
       dueDate: new Date(),
       selectedTaskPriority: null,
-      selectedStatus: null,
+      selectedStatus: null
     }
   },
   computed: {
@@ -169,14 +180,21 @@ export default {
       return has(this.todoCreate.error, key)
     },
     submit () {
-      this.$emit('submit', {
-        title: this.title,
-        description: this.description,
-        task_priority: this.selectedTaskPriority?.value,
-        due_at: this.formattedDueDate,
-        ...(this.isUpdate && { id: this.updateData.id }),
-        isUpdate: this.isUpdate
-      })
+      if (!this.isReject) {
+        this.$emit('submit', {
+          title: this.title,
+          description: this.description,
+          task_priority: this.selectedTaskPriority?.value,
+          due_at: this.formattedDueDate,
+          ...(this.isUpdate && { id: this.updateData.id }),
+          isUpdate: this.isUpdate
+        })
+      } else {
+        this.$emit('update-task', {
+          id: this.updateData.id,
+          type: 'delete-task'
+        })
+      }
     },
     resetForm () {
       this.title = null
