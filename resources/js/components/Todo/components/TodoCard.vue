@@ -25,7 +25,13 @@
         <pagination :length="todos.paginationLength" :limit="10" :page="todos.page" @paginate="changePage" />
       </div>
     </div>
+    <div class="grid grid-cols-1 pb-3">
+      <div>
+        <search-input v-model="searchKey" placeholder="Search Title" @input="sortTodos" />
+      </div>
+    </div>
     <div v-if="todos.list.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 z-0">
+
       <div v-for="(value, index) in formattedTodoList" :key="index"
            class="break-inside overflow-hidden flex flex-col justify-between space-y-3 text-sm rounded-xl max-w-[23rem] p-4 mb-4 bg-white text-black"
       >
@@ -78,6 +84,7 @@ import FaIcon from '~/components/Common/FaIcon'
 import Pagination from '~/components/Common/Pagination'
 import DashboardEmptyState from '~/components/DashboardEmptyState'
 import FormSelect from '~/components/Common/Inputs/FormSelect'
+import SearchInput from '~/components/SearchInput'
 import { PRIORITY_OPTIONS } from '~/constants/priority-options'
 import { SORTING_OPTIONS } from '~/constants/sorting-options'
 
@@ -87,13 +94,15 @@ export default {
     FaIcon,
     Pagination,
     DashboardEmptyState,
-    FormSelect
+    FormSelect,
+    SearchInput
   },
   data () {
     return {
       showIcon: false,
       hoverIndex: null,
-      selectedSortOption: null
+      selectedSortOption: null,
+      searchKey: null
     }
   },
   computed: {
@@ -112,7 +121,7 @@ export default {
   },
   methods: {
     ...mapActions('todos', ['fetchTodos']),
-    ...mapMutations('todos', ['setTodoCurrentPage', 'setTodoSortType']),
+    ...mapMutations('todos', ['setTodoCurrentPage', 'setTodoSortType', 'setTodoSearch']),
     taskPriority (val) {
       return PRIORITY_OPTIONS.find(({ value }) => value === val).name
     },
@@ -121,9 +130,9 @@ export default {
       this.fetchTodos()
     },
     async sortTodos () {
-      console.log('todos')
       await this.setTodoSortType(this.selectedSortOption)
-      this.fetchTodos()
+      await this.setTodoSearch(this.searchKey)
+      await this.fetchTodos()
     },
     showModal (id = null, isReject = false) {
       this.$emit('show-todos-modal', { id: id, isReject: isReject })

@@ -13,4 +13,9 @@ class Todo extends Model
     protected $casts = [
         'due_at' => 'datetime:Y-m-d',
     ];
+
+    public function scopeWhereLike($query, $column, $value)
+    {
+        return $query->where($column, 'like', '%'.$value.'%');
+    }
 }

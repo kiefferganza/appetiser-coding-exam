@@ -8,7 +8,8 @@ export const state = {
     paginationLength: 1,
     page: 1,
     list: [],
-    sortType: null
+    sortType: null,
+    searchKey: null
   },
   todoCreate: {
     fetch: false,
@@ -108,6 +109,9 @@ export const mutations = {
   setTodoSortType (state, payload) {
     state.todos.sortType = payload
   },
+  setTodoSearch (state, payload) {
+    state.todos.searchKey = payload
+  },
   setTodoCreateState (state, payload) {
     state.todoCreate.fetch = payload
   },
@@ -123,7 +127,8 @@ export const actions = {
     await axios
       .get(`api/todos?page=${state.todos.page}`, {
         params: {
-          sortType: state.todos.sortType
+          sortType: state.todos.sortType,
+          search: state.todos.searchKey
         }
       })
       .then(({ data }) => {

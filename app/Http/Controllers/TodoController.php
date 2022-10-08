@@ -37,6 +37,12 @@ class TodoController extends Controller
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $todoList = $this->todo::where('user_id', $this->auth::id());
+
+        if($request->has('search')) {
+            $searchKey = $request['search'];
+            $todoList->whereLike('title', $searchKey);
+        }
+
         if($request->has('sortType')){
             $sortType = json_decode($request['sortType'], true);
             $todoList->orderBy($sortType['column'], $sortType['value']);
