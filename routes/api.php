@@ -21,10 +21,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:api')->resource('todos', \App\Http\Controllers\TodoController::class);
-Route::middleware('auth:api')->post('todos/complete-task/{id}', [\App\Http\Controllers\TodoController::class, 'completeTask']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
+    Route::resource('todos', \App\Http\Controllers\TodoController::class);
+    Route::post('todos/complete-task/{id}', [\App\Http\Controllers\TodoController::class, 'completeTask']);
+    Route::post('/upload', [\App\Http\Controllers\FileUploadController::class, 'upload']);
 
     Route::get('user', [UserController::class, 'current']);
 

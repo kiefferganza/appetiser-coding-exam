@@ -23,7 +23,7 @@ export default {
     this.fetchTodos()
   },
   methods: {
-    ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo', 'completeTask', 'deleteTask']),
+    ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo', 'completeTask', 'deleteTask', 'uploadFile']),
 
     async submit (data) {
       if (!data.isUpdate) {
@@ -32,6 +32,7 @@ export default {
         await this.updateTodo(data)
       }
       if (!this.todoCreate.error) {
+        await this.uploadFile(data)
         this.$refs.todo.hideTodoModal()
         this.$toast.success('Success')
       }

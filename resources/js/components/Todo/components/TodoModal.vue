@@ -82,6 +82,13 @@
           </form-group>
         </div>
       </div>
+      <div class="py-3 pb-5 border-b">
+        <div class="flex flex-col md:flex-row items-center">
+          <form-group class="w-full" label="File Upload" label-for="file">
+            <input multiple="multiple" class="block w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none" type="file" @change="onFileChange">
+          </form-group>
+        </div>
+      </div>
     </div>
     <div v-else class="flex flex-col items-center justify-center">
       <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -134,6 +141,7 @@ export default {
       title: null,
       description: null,
       dueDate: null,
+      file: new FormData(),
       selectedTaskPriority: null,
       selectedStatus: null
     }
@@ -157,9 +165,9 @@ export default {
   },
   watch: {
     updateData (newData) {
-      const priorityOptions = PRIORITY_OPTIONS.find((e) => e.value === newData.task_priority)
       this.$store.commit('todos/setTodoCreateError', '')
       if (this.isUpdate) {
+        const priorityOptions = PRIORITY_OPTIONS.find((e) => e.value === newData.task_priority)
         this.title = newData.title
         this.description = newData.description
         this.due_at = newData.due_at
@@ -173,6 +181,11 @@ export default {
     }
   },
   methods: {
+    onFileChange (e) {
+      for (const key in event.target.files) {
+        this.file.append('file[]', event.target.files[key])
+      }
+    },
     checkEmptyObject (data) {
       return isEmpty(data)
     },
@@ -187,6 +200,7 @@ export default {
           task_priority: this.selectedTaskPriority?.value,
           due_at: this.formattedDueDate,
           ...(this.isUpdate && { id: this.updateData.id }),
+          file: this.file,
           isUpdate: this.isUpdate
         })
       } else {

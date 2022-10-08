@@ -9,12 +9,14 @@ export const state = {
     page: 1,
     list: [],
     sortType: null,
-    searchKey: null
+    searchKey: null,
+    lastInsertedID: null
   },
   todoCreate: {
     fetch: false,
     error: ''
-  }
+  },
+  todoFile: []
 }
 
 // getters
@@ -112,6 +114,12 @@ export const mutations = {
   setTodoSearch (state, payload) {
     state.todos.searchKey = payload
   },
+  setTodoFile (state, payload) {
+    state.todoFile = payload
+  },
+  setLastInsertedID (state, payload) {
+    state.todos.lastInsertedID = payload
+  },
   setTodoCreateState (state, payload) {
     state.todoCreate.fetch = payload
   },
@@ -155,6 +163,7 @@ export const actions = {
       .then(({ data }) => {
         commit('setTodoCreateState', false)
         commit('addTodoList', data.data)
+        commit('setLastInsertedID', data.data.id)
         commit('setTodoPaginationLength', state.todos.paginationLength + 1)
       })
       .catch(({ response }) => {
@@ -203,6 +212,22 @@ export const actions = {
       .then(({ data }) => {
         commit('setTodoCreateState', false)
         commit('removeTodo', payload.id)
+      })
+      .catch(({ response }) => {
+        commit('setTodoCreateState', false)
+        commit('setTodoCreateError', response.data.errors)
+      })
+  },
+  async uploadFile ({ commit, state }, payload) {
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' }
+    }
+    payload.file.append('todoID', state.todos.lastInsertedID)
+    await axios
+      .post('/api/upload', payload.file, config)
+      .then(({ data }) => {
+        commit('setTodoCreateState', false)
+        commit('setTodoFile', data.data)
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)
