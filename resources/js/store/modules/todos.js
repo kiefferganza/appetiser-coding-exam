@@ -7,7 +7,8 @@ export const state = {
     fetch: false,
     paginationLength: 1,
     page: 1,
-    list: []
+    list: [],
+    sortType: null
   },
   todoCreate: {
     fetch: false,
@@ -104,6 +105,9 @@ export const mutations = {
     const id = state.todos.list.findIndex(e => e.id === payload)
     state.todos.list.splice(id, 1)
   },
+  setTodoSortType (state, payload) {
+    state.todos.sortType = payload
+  },
   setTodoCreateState (state, payload) {
     state.todoCreate.fetch = payload
   },
@@ -117,7 +121,11 @@ export const actions = {
   async fetchTodos ({ commit, state }, payload) {
     commit('setTodoState', true)
     await axios
-      .get(`api/todos?page=${state.todos.page}`, payload)
+      .get(`api/todos?page=${state.todos.page}`, {
+        params: {
+          sortType: state.todos.sortType
+        }
+      })
       .then(({ data }) => {
         commit('setTodoState', false)
         commit('setTodoList', data.data)
