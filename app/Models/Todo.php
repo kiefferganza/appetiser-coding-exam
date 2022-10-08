@@ -14,6 +14,10 @@ class Todo extends Model
         'due_at' => 'datetime:Y-m-d',
     ];
 
+    public function files(){
+        return $this->hasMany(FileUpload::class);
+    }
+
     public function scopeWhereLike($query, $column, $value)
     {
         return $query->where($column, 'like', '%'.$value.'%');

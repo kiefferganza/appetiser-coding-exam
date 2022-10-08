@@ -26,13 +26,14 @@ export default {
     ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo', 'completeTask', 'deleteTask', 'uploadFile']),
 
     async submit (data) {
+      await this.uploadFile(data)
+
       if (!data.isUpdate) {
         await this.createTodo(data)
       } else {
         await this.updateTodo(data)
       }
       if (!this.todoCreate.error) {
-        await this.uploadFile(data)
         this.$refs.todo.hideTodoModal()
         this.$toast.success('Success')
       }
