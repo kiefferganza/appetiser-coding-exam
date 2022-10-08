@@ -85,7 +85,7 @@
       <div class="py-3 pb-5 border-b">
         <div class="flex flex-col md:flex-row items-center">
           <form-group class="w-full" label="File Upload" label-for="file">
-            <input multiple="multiple" class="block w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none" type="file" @change="onFileChange">
+            <input accept=".doc,.docx,.jpg,.png,.svg,.mp4,.csv,.txt" multiple="multiple" class="block w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none" type="file" @change="onFileChange">
             <p v-if="hasError('file')" class="mt-2 text-sm text-red-600 dark:text-red-500">
               <span class="font-medium">{{ todoCreate.error.file[0] }}</span>
             </p>
