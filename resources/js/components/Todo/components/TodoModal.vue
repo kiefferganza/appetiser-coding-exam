@@ -133,7 +133,7 @@ export default {
     return {
       title: null,
       description: null,
-      dueDate: new Date(),
+      dueDate: null,
       selectedTaskPriority: null,
       selectedStatus: null
     }
@@ -144,7 +144,7 @@ export default {
       return !this.checkEmptyObject(this.updateData)
     },
     formattedDueDate () {
-      return format(new Date(this.dueDate), 'yyyy-MM-dd')
+      return this.dueDate ? format(this.dueDate, 'yyyy-MM-dd') : null
     },
     taskPriorityOptions () {
       return PRIORITY_OPTIONS.map((e) => {
