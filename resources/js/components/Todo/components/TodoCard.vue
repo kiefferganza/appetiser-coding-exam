@@ -9,7 +9,7 @@
           Create Todo
         </form-button>
       </div>
-      <div class="grid grid-cols-2">
+      <div v-if="todos.list.length > 0" class="grid grid-cols-2">
         <form-select
           v-model="selectedSortOption"
           track-by="name"
@@ -21,12 +21,12 @@
           @input="sortTodos()"
         />
       </div>
-      <div>
+      <div v-if="todos.list.length > 0">
         <pagination :length="todos.paginationLength" :limit="10" :page="todos.page" @paginate="changePage" />
       </div>
     </div>
     <div class="grid grid-cols-1 pb-3">
-      <div>
+      <div v-if="todos.list.length > 0">
         <search-input v-model="searchKey" placeholder="Search Title" @input="sortTodos" />
       </div>
     </div>
