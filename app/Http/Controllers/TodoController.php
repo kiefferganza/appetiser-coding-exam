@@ -54,7 +54,8 @@ class TodoController extends Controller
 
         return response()->json([
             'message' => 'Success',
-            'data' => $todo
+            'data' => $todo::where('id', $todo->id)->with('tag')->first()
+
         ], 200);
     }
 
@@ -91,8 +92,8 @@ class TodoController extends Controller
         $todo->tag()->sync($tagID);
 
         return response()->json([
-            'message' =>'Success',
-            'data'=>$todo
+            'message' => 'Success',
+            'data'=> $todo::where('id', $todo->id)->with('tag')->first()
         ],200);
     }
     public function completeTask($id) {

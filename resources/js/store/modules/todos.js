@@ -70,11 +70,12 @@ export const mutations = {
       task_priority: payload.task_priority,
       title: payload.title,
       updated_at: payload.updated_at,
-      user_id: payload.user_id
+      user_id: payload.user_id,
+      tag: payload.tag,
+      files: payload.files
     })
   },
   updateTodoList (state, payload) {
-    console.log(payload)
     state.todos.list = state.todos.list.map((data) => {
       if (data.id === payload.id) {
         return {
@@ -86,7 +87,8 @@ export const mutations = {
           task_priority: payload.task_priority,
           title: payload.title,
           updated_at: payload.updated_at,
-          user_id: payload.user_id
+          user_id: payload.user_id,
+          tag: payload.tag
         }
       }
       return {
@@ -188,7 +190,6 @@ export const actions = {
       })
       .then(({ data }) => {
         commit('setTodoCreateState', false)
-        commit('addTodoList', data.data)
         commit('setLastInsertedID', data.data.id)
         commit('setTodoPaginationLength', state.todos.paginationLength + 1)
       })
@@ -268,7 +269,7 @@ export const actions = {
       .post('/api/upload', payload.file, config)
       .then(({ data }) => {
         commit('setTodoCreateState', false)
-        commit('setTodoFile', data.data)
+        commit('addTodoList', data.data[0])
       })
       .catch(({ response }) => {
         commit('setTodoCreateState', false)

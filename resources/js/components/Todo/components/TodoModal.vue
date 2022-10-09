@@ -114,6 +114,7 @@
           </form-group>
         </div>
       </div>
+      <viewer :images="imageURL" />
     </div>
     <div v-else class="flex flex-col items-center justify-center">
       <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -136,6 +137,7 @@ import FormInput from '~/components/Common/Inputs/FormInput'
 import FormSelect from '~/components/Common/Inputs/FormSelect'
 import FormTextArea from '~/components/Common/Inputs/FormTextArea'
 import FormDatePicker from '~/components/Common/Inputs/FormDatePicker'
+import Viewer from '../../Viewer'
 import { PRIORITY_OPTIONS } from '~/constants/priority-options'
 
 export default {
@@ -145,7 +147,8 @@ export default {
     FormGroup,
     CommonModal,
     FormTextArea,
-    FormDatePicker
+    FormDatePicker,
+    Viewer
   },
   props: {
     show: {
@@ -169,7 +172,8 @@ export default {
       file: new FormData(),
       selectedTaskPriority: null,
       selectedTags: null,
-      selectedStatus: null
+      selectedStatus: null,
+      imageURL: null
     }
   },
   computed: {
@@ -215,6 +219,9 @@ export default {
             value: e.id
           }
         })
+        this.imageURL = newData.files.map((e) => {
+          return e.file_path
+        })
       } else {
         this.resetForm()
       }
@@ -256,6 +263,8 @@ export default {
       this.description = null
       this.task_priority = null
       this.due_at = new Date()
+      this.selectedTags = null
+      this.imageURL = null
     },
     closeModal () {
       this.$emit('close-user-modal')

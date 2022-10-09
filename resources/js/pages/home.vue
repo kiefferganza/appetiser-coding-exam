@@ -29,10 +29,10 @@ export default {
     async submit (data) {
       if (!data.isUpdate) {
         await this.createTodo(data)
+        await this.uploadFile(data)
       } else {
         await this.updateTodo(data)
       }
-      await this.uploadFile(data)
       if (!this.todoCreate.error) {
         this.$refs.todo.hideTodoModal()
         this.$toast.success('Success')
