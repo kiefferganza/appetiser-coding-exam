@@ -253,6 +253,19 @@ class TodoController extends Controller
             'data'=>$todo
         ],200);
     }
+    public function archiveTask($id) {
+        $todo = $this->todo::where('id',$id)->firstOrFail();
+
+        $todo->update([
+            'archived_at' => Carbon::now()
+        ]);
+
+        return response()->json([
+            'message' =>'Success',
+            'data'=>$todo
+        ],200);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

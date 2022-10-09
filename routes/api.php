@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('todos', \App\Http\Controllers\TodoController::class);
     Route::resource('tags', \App\Http\Controllers\TagsController::class);
     Route::post('todos/complete-task/{id}', [\App\Http\Controllers\TodoController::class, 'completeTask']);
+    Route::post('todos/archive-task/{id}', [\App\Http\Controllers\TodoController::class, 'archiveTask']);
+
     Route::post('/upload', [\App\Http\Controllers\FileUploadController::class, 'upload']);
 
     Route::get('user', [UserController::class, 'current']);
