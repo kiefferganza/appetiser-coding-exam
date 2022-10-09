@@ -12,7 +12,6 @@
     <div
       v-if="!isReject"
       class="sm:px-4"
-      style="max-height: 30em"
     >
       <div class="pb-5">
         <div class="flex flex-col md:flex-row items-center gap-4 pb-1">
@@ -82,6 +81,29 @@
           </form-group>
         </div>
       </div>
+      <div class="pb-5">
+        <div class="flex flex-col md:flex-row items-center gap-4 pb-1">
+          <form-group
+            class="w-full"
+            label="Tags"
+            label-for="tags"
+            required
+          >
+            <form-select
+              v-model="selectedTags"
+              track-by="name"
+              label="name"
+              :allow-empty="false"
+              :options="tagOptions"
+              name="priority"
+              multiple
+            />
+            <p v-if="hasError('tags')" class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ todoCreate.error.tags[0] }}</span>
+            </p>
+          </form-group>
+        </div>
+      </div>
       <div class="py-3 pb-5 border-b">
         <div class="flex flex-col md:flex-row items-center">
           <form-group class="w-full" label="File Upload" label-for="file">
@@ -146,11 +168,12 @@ export default {
       dueDate: null,
       file: new FormData(),
       selectedTaskPriority: null,
+      selectedTags: null,
       selectedStatus: null
     }
   },
   computed: {
-    ...mapState('todos', ['todoCreate']),
+    ...mapState('todos', ['todoCreate', 'tags']),
     isUpdate () {
       return !this.checkEmptyObject(this.updateData)
     },
@@ -162,6 +185,14 @@ export default {
         return {
           name: e.name,
           value: e.value
+        }
+      })
+    },
+    tagOptions () {
+      return this.tags.list.map((e) => {
+        return {
+          name: e.name,
+          value: e.id
         }
       })
     }
@@ -204,6 +235,7 @@ export default {
           due_at: this.formattedDueDate,
           ...(this.isUpdate && { id: this.updateData.id }),
           file: this.file,
+          tag: this.selectedTags,
           isUpdate: this.isUpdate
         })
       } else {

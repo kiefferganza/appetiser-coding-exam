@@ -21,9 +21,10 @@ export default {
   },
   mounted () {
     this.fetchTodos()
+    this.fetchTags()
   },
   methods: {
-    ...mapActions('todos', ['fetchTodos', 'createTodo', 'updateTodo', 'completeTask', 'deleteTask', 'uploadFile']),
+    ...mapActions('todos', ['fetchTodos', 'fetchTags', 'createTodo', 'updateTodo', 'completeTask', 'deleteTask', 'uploadFile']),
 
     async submit (data) {
       if (!data.isUpdate) {

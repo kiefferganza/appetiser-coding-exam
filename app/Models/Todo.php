@@ -14,8 +14,14 @@ class Todo extends Model
         'due_at' => 'datetime:Y-m-d',
     ];
 
-    public function files(){
+    public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(FileUpload::class);
+    }
+
+    public function tag(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'todo_tag');
     }
 
     public function scopeWhereLike($query, $column, $value)

@@ -36,7 +36,7 @@ class TodoController extends Controller
      */
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $todoList = $this->todo::where('user_id', $this->auth::id());
+        $todoList = $this->todo::where('user_id', $this->auth::id())->with('tag');
 
         if($request->has('search')) {
             $searchKey = $request['search'];
@@ -109,6 +109,13 @@ class TodoController extends Controller
             'due_at' => $request['due_at'],
             'user_id' => $this->auth::id(),
         ]);
+
+    $tagID = [];
+    foreach ($request['tag'] as $tag) {
+        $tagID[] = $tag['value'];
+    }
+
+        $todo->tag()->sync($tagID);
 
         return response()->json([
             'message' => 'Success',

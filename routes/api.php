@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
     Route::resource('todos', \App\Http\Controllers\TodoController::class);
+    Route::resource('tags', \App\Http\Controllers\TagsController::class);
     Route::post('todos/complete-task/{id}', [\App\Http\Controllers\TodoController::class, 'completeTask']);
     Route::post('/upload', [\App\Http\Controllers\FileUploadController::class, 'upload']);
 

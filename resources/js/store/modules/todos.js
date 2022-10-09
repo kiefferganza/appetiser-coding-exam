@@ -12,6 +12,14 @@ export const state = {
     searchKey: null,
     lastInsertedID: null
   },
+  tags: {
+    fetch: false,
+    paginationLength: 1,
+    page: 1,
+    list: [],
+    sortType: null,
+    searchKey: null,
+  },
   todoCreate: {
     fetch: false,
     error: ''
@@ -35,6 +43,9 @@ export const getters = {
 export const mutations = {
   setTodoList (state, payload) {
     state.todos.list = payload
+  },
+  setTagList (state, payload) {
+    state.tags.list = payload
   },
   setTodoState (state, payload) {
     state.todos.fetch = payload
@@ -150,6 +161,19 @@ export const actions = {
         commit('setTodoPaginationLength', 0)
       })
   },
+  async fetchTags ({ commit, state }, payload) {
+    commit('setTodoState', true)
+    await axios
+      .get('api/tags')
+      .then(({ data }) => {
+        commit('setTodoState', false)
+        commit('setTagList', data.tags)
+      })
+      .catch(() => {
+        commit('setTodoState', false)
+        commit('setTagList', [])
+      })
+  },
   async createTodo ({ commit, state }, payload) {
     commit('setTodoCreateState', true)
     commit('setTodoCreateError', '')
@@ -158,7 +182,8 @@ export const actions = {
         title: payload.title,
         description: payload.description,
         task_priority: payload.task_priority,
-        due_at: payload.due_at
+        due_at: payload.due_at,
+        tag: payload.tag
       })
       .then(({ data }) => {
         commit('setTodoCreateState', false)
