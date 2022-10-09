@@ -14,8 +14,7 @@ class AddFileToTodosTable extends Migration
     public function up()
     {
         Schema::create('file_upload', function (Blueprint $table) {
-            $table->unsignedBigInteger('todo_id');
-            $table->foreign('todo_id')->references('id')->on('todos')->onDelete('cascade');
+            $table->id();
             $table->string('file_path');
             $table->timestamps();
         });
@@ -28,7 +27,7 @@ class AddFileToTodosTable extends Migration
      */
     public function down()
     {
-        Schema::table('todos', function (Blueprint $table) {
+        Schema::table('file_upload', function (Blueprint $table) {
             $table->dropColumn('file_path');
         });
     }
