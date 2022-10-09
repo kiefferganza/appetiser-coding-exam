@@ -88,7 +88,8 @@ export const mutations = {
           title: payload.title,
           updated_at: payload.updated_at,
           user_id: payload.user_id,
-          tag: payload.tag
+          tag: payload.tag,
+          files: payload.files,
         }
       }
       return {

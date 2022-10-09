@@ -93,7 +93,7 @@ class TodoController extends Controller
 
         return response()->json([
             'message' => 'Success',
-            'data'=> $todo::where('id', $todo->id)->with('tag')->first()
+            'data'=> $todo::where('id', $todo->id)->with('tag', 'files')->first()
         ],200);
     }
     public function completeTask($id) {
