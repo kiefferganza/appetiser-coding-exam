@@ -204,7 +204,8 @@ export const actions = {
         title: payload.title,
         description: payload.description,
         task_priority: payload.task_priority,
-        due_at: payload.due_at
+        due_at: payload.due_at,
+        tag: payload.tag
       })
       .then(({ data }) => {
         commit('setTodoCreateState', false)

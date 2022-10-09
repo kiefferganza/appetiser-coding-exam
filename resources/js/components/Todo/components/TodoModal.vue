@@ -209,6 +209,12 @@ export default {
           name: priorityOptions.name,
           value: priorityOptions.value
         }
+        this.selectedTags = newData.tag.map((e) => {
+          return {
+            name: e.name,
+            value: e.id
+          }
+        })
       } else {
         this.resetForm()
       }

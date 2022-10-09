@@ -228,6 +228,14 @@ class TodoController extends Controller
             'task_priority' => $request['task_priority'],
             'due_at' => $request['due_at'],
         ]);
+
+        $tagID = [];
+        foreach ($request['tag'] as $tag) {
+            $tagID[] = $tag['value'];
+        }
+
+        $todo->tag()->sync($tagID);
+
         return response()->json([
             'message' =>'Success',
             'data'=>$todo
