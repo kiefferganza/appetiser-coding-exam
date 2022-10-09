@@ -256,9 +256,16 @@ class TodoController extends Controller
     public function archiveTask($id) {
         $todo = $this->todo::where('id',$id)->firstOrFail();
 
+        $archiveValue = null;
+
+        if(!$todo->archived_at) {
+            $archiveValue = Carbon::now();
+        }
+
         $todo->update([
-            'archived_at' => Carbon::now()
+            'archived_at' => $archiveValue
         ]);
+
 
         return response()->json([
             'message' =>'Success',

@@ -24,7 +24,7 @@ export default {
     this.fetchTags()
   },
   methods: {
-    ...mapActions('todos', ['fetchTodos', 'fetchTags', 'createTodo', 'updateTodo', 'completeTask', 'deleteTask', 'uploadFile']),
+    ...mapActions('todos', ['fetchTodos', 'fetchTags', 'createTodo', 'updateTodo', 'completeTask', 'archiveTask', 'deleteTask', 'uploadFile']),
 
     async submit (data) {
       if (!data.isUpdate) {
@@ -41,6 +41,8 @@ export default {
     async updateTask (data) {
       if (data.type === 'complete-task') {
         await this.completeTask(data)
+      } else if (data.type === 'archive-task') {
+        await this.archiveTask(data)
       } else {
         await this.deleteTask(data)
       }

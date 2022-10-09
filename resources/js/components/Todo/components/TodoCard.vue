@@ -31,9 +31,8 @@
       </div>
     </div>
     <div v-if="todos.list.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 z-0">
-
       <div v-for="(value, index) in formattedTodoList" :key="index"
-           class="break-inside overflow-hidden flex flex-col justify-between space-y-3 text-sm rounded-xl max-w-[23rem] p-4 mb-4 bg-white text-black"
+           class="break-inside overflow-hidden flex flex-col justify-between space-y-3 text-sm rounded-xl p-4 mb-4 bg-white text-black"
       >
         <div class="flex items-center justify-between font-medium">
           <span class="uppercase text-xs font-bold" :class="[{'text-blue-600': value.task_priority === 1},
@@ -43,7 +42,7 @@
           >{{ taskPriority(value.task_priority) }}</span>
           <span class="text-xs text-slate-500">{{ value.date_created }}</span>
         </div>
-        <div class="flex flex-row items-center space-x-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center space-x-3">
           <form-button class="flex flex-none items-center justify-center w-10 h-10 rounded-full text-white hover:bg-red-300 hover:border-red-700"
                        :class="[{'badge__success': value.date_completed},
                                 {'badge__warning': !value.date_completed}]"
@@ -55,22 +54,28 @@
           <span class="text-base font-medium">{{ value.title }}</span>
         </div>
         <div> {{ value.description }}</div>
-        <div class="flex justify-between items-center">
-          <form-button class="flex items-center justify-center text-xs font-medium rounded-full px-4 py-1 space-x-1 border-2 border-black bg-white hover:bg-black hover:text-white text-black" @click="showModal(value.id)">
-            <span>View</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h13M12 5l7 7-7 7" />
-            </svg>
-          </form-button>
-          <form-button v-if="!value.date_completed"
-                       :busy="todoCreate.fetch" :disabled="todoCreate.fetch"
-                       class="ml-3 flex items-center justify-center text-xs font-medium rounded-full px-4 py-1 space-x-1 border-2 border-black bg-white hover:bg-black hover:text-white text-black" @click="updateTask(value.id, 'complete-task')"
-          >
-            <span>Complete Task</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <fa-icon icon="check" />
-            </svg>
-          </form-button>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-between items-center gap-2">
+          <div>
+            <form-button class="flex items-center justify-center text-xs font-medium rounded-full px-4 py-1 space-x-1 border-2 border-black bg-white hover:bg-black hover:text-white text-black" @click="showModal(value.id)">
+              <span>View</span>
+            </form-button>
+          </div>
+          <div v-if="!value.date_completed">
+            <form-button
+              :busy="todoCreate.fetch" :disabled="todoCreate.fetch"
+              class="flex items-center justify-center text-xs font-medium rounded-full px-4 py-1 space-x-1 border-2 border-black bg-white hover:bg-black hover:text-white text-black" @click="updateTask(value.id, 'complete-task')"
+            >
+              <span>Complete</span>
+            </form-button>
+          </div>
+          <div>
+            <form-button
+              :busy="todoCreate.fetch" :disabled="todoCreate.fetch"
+              class="flex items-center justify-center text-xs font-medium rounded-full px-4 py-1 space-x-1 border-2 border-black bg-white hover:bg-black hover:text-white text-black" @click="updateTask(value.id, 'archive-task')"
+            >
+              <span>{{ value.archived_at ? 'Recover' : 'Archive' }}</span>
+            </form-button>
+          </div>
         </div>
       </div>
     </div>

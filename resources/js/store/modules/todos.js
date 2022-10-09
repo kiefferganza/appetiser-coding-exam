@@ -107,7 +107,8 @@ export const mutations = {
           task_priority: payload.task_priority,
           title: payload.title,
           updated_at: payload.updated_at,
-          user_id: payload.user_id
+          user_id: payload.user_id,
+          archived_at: payload.archived_at
         }
       }
       return {
@@ -221,6 +222,20 @@ export const actions = {
     commit('setTodoCreateError', '')
     await axios
       .post(`/api/todos/complete-task/${payload.id}`)
+      .then(({ data }) => {
+        commit('setTodoCreateState', false)
+        commit('updateTodoStatus', data.data)
+      })
+      .catch(({ response }) => {
+        commit('setTodoCreateState', false)
+        commit('setTodoCreateError', response.data.errors)
+      })
+  },
+  async archiveTask ({ commit, state }, payload) {
+    commit('setTodoCreateState', true)
+    commit('setTodoCreateError', '')
+    await axios
+      .post(`/api/todos/archive-task/${payload.id}`)
       .then(({ data }) => {
         commit('setTodoCreateState', false)
         commit('updateTodoStatus', data.data)
