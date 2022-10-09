@@ -1,14 +1,22 @@
+# Appetiser Coding Exam
+
+Todo app created using laravel and VueJS.
+
 ## Dependencies
 - PHP 8
+- vue
 - Mysql
 - Tailwind CSS
 - Flowbite
+- v-viewer
 
 ## Build Setup
 
 ```bash
-# install dependencies
+# install php dependencies
 $ composer install
+
+# install vue dependencies
 
 # copy environment variable examples
 $ cp .env.example .env
@@ -16,7 +24,11 @@ $ cp .env.example .env
 # serve with hot reload at localhost:3000
 $ php artisan serve
 
+# serve vue app
 
-# generate open API documentation
-$ php artisan l5-swagger:generate
+$ npm run dev
+
 ```
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
