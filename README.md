@@ -33,5 +33,5 @@ $ npm run dev
 
 ```
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+## Documentation
+[Postman Collection](https://documenter.getpostman.com/view/6436578/2s83ziMNgU)
