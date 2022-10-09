@@ -21,6 +21,9 @@ $ composer install
 # copy environment variable examples
 $ cp .env.example .env
 
+# run migrations
+php artisan migrate
+
 # serve with hot reload at localhost:3000
 $ php artisan serve
 
