@@ -25,7 +25,7 @@ class StoreFileRequest extends FormRequest
     {
         return [
             'todoID' => 'required|integer',
-            'file' => 'required|mimes:svg,jpg,png,mp4,csv,txt,doc,docx'
+            'file' => 'nullable'
         ];
     }
 }

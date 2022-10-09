@@ -14,9 +14,9 @@ class Todo extends Model
         'due_at' => 'datetime:Y-m-d',
     ];
 
-    public function files(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(FileUpload::class, 'todo_file');
+        return $this->hasMany(FileUpload::class);
     }
 
     public function tag(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

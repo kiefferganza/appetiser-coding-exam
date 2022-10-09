@@ -17,7 +17,7 @@ class TodoController extends Controller
 
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $todoList = $this->todo::where('user_id', $this->auth::id())->with('tag');
+        $todoList = $this->todo::where('user_id', $this->auth::id())->with('tag','files');
 
         if($request->has('search')) {
             $searchKey = $request['search'];

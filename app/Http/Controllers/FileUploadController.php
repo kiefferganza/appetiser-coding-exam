@@ -22,7 +22,7 @@ class FileUploadController extends Controller
     {
         $fileList = [];
         $files = $request->file('file');
-        if($this->todo->where('id', '!=', $request['todoID'])) return response()->json('Todo Doesnt Exist',404);
+       $todo = $this->todo::where('id',$request['todoID'])->firstOrFail();
 
         foreach($files as $file) {
             $fileName = Str::uuid().'_'.$file->getClientOriginalName();
@@ -37,7 +37,8 @@ class FileUploadController extends Controller
         }
 
 
-        return response()->json(['success'=>'You have successfully upload file.', 'data' => $fileList]);
+
+        return response()->json(['success'=>'You have successfully upload file.', 'data' => $todo->files()]);
     }
 }
 

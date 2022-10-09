@@ -18,7 +18,7 @@ export const state = {
     page: 1,
     list: [],
     sortType: null,
-    searchKey: null,
+    searchKey: null
   },
   todoCreate: {
     fetch: false,
@@ -261,7 +261,7 @@ export const actions = {
   },
   async uploadFile ({ commit, state }, payload) {
     const config = {
-      headers: { 'content-type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' }
     }
     payload.file.append('todoID', state.todos.lastInsertedID)
     await axios
